@@ -27,31 +27,25 @@ public class APIMgtCustomUsageDataBridgeDataPublisher extends APIMgtUsageDataBri
             if(log.isDebugEnabled()){
                 log.debug("Initializing APIMgtCustomUsageDataBridgeDataPublisher");
             }
-
             this.dataPublisher = getDataPublisher();
-
         }catch (Exception e){
             log.error("Error initializing APIMgtCustomUsageDataBridgeDataPublisher", e);
         }
     }
 
     private static DataPublisher getDataPublisher() {
-
         //If a DataPublisher had not been registered for the tenant.
         if (dataPublisherStatics == null
                 && DataPublisherUtil.getApiManagerAnalyticsConfiguration().getDasReceiverUrlGroups() != null) {
-
             String serverUser = DataPublisherUtil.getApiManagerAnalyticsConfiguration().getDasReceiverServerUser();
             String serverPassword = DataPublisherUtil.getApiManagerAnalyticsConfiguration()
                     .getDasReceiverServerPassword();
             String serverURL = DataPublisherUtil.getApiManagerAnalyticsConfiguration().getDasReceiverUrlGroups();
             String serverAuthURL = DataPublisherUtil.getApiManagerAnalyticsConfiguration()
                     .getDasReceiverAuthUrlGroups();
-
             try {
                 //Create new DataPublisher for the tenant.
                 synchronized (APIMgtCustomUsageDataBridgeDataPublisher.class) {
-
                     if (dataPublisherStatics == null) {
                         dataPublisherStatics = new DataPublisher(null, serverURL, serverAuthURL, serverUser,
                                 serverPassword);
@@ -69,14 +63,12 @@ public class APIMgtCustomUsageDataBridgeDataPublisher extends APIMgtUsageDataBri
                 log.error("Error while creating data publisher", e);
             }
         }
-
         return dataPublisherStatics;
     }
 
     public void publishEvent(CustomRequestPublisherDTO requestPublisherDTO) {
         CustomDataBridgeRequestPublisherDTO dataBridgeRequestPublisherDTO = new CustomDataBridgeRequestPublisherDTO(requestPublisherDTO);
         try {
-
             /*String streamID= DataPublisherUtil.getApiManagerAnalyticsConfiguration().getRequestStreamName()+":"
                     +DataPublisherUtil.getApiManagerAnalyticsConfiguration().getRequestStreamVersion();*/
             //Publish Request Data
@@ -86,7 +78,5 @@ public class APIMgtCustomUsageDataBridgeDataPublisher extends APIMgtUsageDataBri
         } catch(Exception e){
             log.error("Error while publishing Request event", e);
         }
-
     }
 }
-

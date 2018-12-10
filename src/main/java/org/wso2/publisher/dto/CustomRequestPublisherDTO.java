@@ -16,4 +16,3 @@ public class CustomRequestPublisherDTO extends PublisherDTO {
 
     private String resProg;
 }
-
